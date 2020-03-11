@@ -81,9 +81,10 @@ import { postNewMessage } from '../../services/messagesService'
 import Quote from '../Quote'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import SHA1 from 'crypto-js/sha1'
+import Hex from 'crypto-js/enc-hex'
 import { shareFile } from '../../services/filesSharingServices'
 import { processFiles } from '../../utils/fileUpload'
-
 import { CONVERSATION } from '../../constants'
 
 const picker = getFilePickerBuilder(t('spreed', 'File to share'))
@@ -188,8 +189,9 @@ export default {
 		 * @returns {Object}
 		 */
 		createTemporaryMessage() {
+			const tempId = this.createTemporaryMessageId()
 			const message = Object.assign({}, {
-				id: this.createTemporaryMessageId(),
+				id: tempId,
 				actorId: this.$store.getters.getActorId(),
 				actorType: this.$store.getters.getActorType(),
 				actorDisplayName: this.$store.getters.getDisplayName(),
@@ -200,6 +202,7 @@ export default {
 				messageParameters: {},
 				token: this.token,
 				isReplyable: false,
+				referenceId: Hex.stringify(SHA1(tempId)),
 			})
 
 			if (this.$store.getters.getActorType() === 'guests') {
