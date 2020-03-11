@@ -48,3 +48,4 @@ title: Capabilities
 * `config => attachments => allowed` - Whether the user can upload files into a chat
 * `config => attachments => folder` - User defined folder where items should be uploaded to
 * `force-mute` - "forceMute" signaling messages can be sent to mute other participants.
+* `chat-reference-id` - an optional referenceId can be sent with a chat message to be able to identify it in parallel get requests to earlier fade out a temporary message

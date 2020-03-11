@@ -91,6 +91,7 @@ class Capabilities implements IPublicCapability {
 					'chat-replies',
 					'circles-support',
 					'force-mute',
+					'chat-reference-id',
 				],
 				'config' => [
 					'attachments' => $attachments,
