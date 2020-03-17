@@ -24,20 +24,26 @@ namespace OCA\Talk\Settings\Admin;
 
 
 use OCA\Talk\Config;
+use OCA\Talk\Room;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\Settings\ISettings;
 
 class AllowedGroups implements ISettings {
 
 	/** @var Config */
-	private $config;
+	private $talkConfig;
+	/** @var IConfig */
+	private $serverConfig;
 	/** @var IInitialStateService */
 	private $initialStateService;
 
-	public function __construct(Config $config,
+	public function __construct(Config $talkConfig,
+								IConfig $serverConfig,
 								IInitialStateService $initialStateService) {
-		$this->config = $config;
+		$this->talkConfig = $talkConfig;
+		$this->serverConfig = $serverConfig;
 		$this->initialStateService = $initialStateService;
 	}
 
@@ -45,7 +51,9 @@ class AllowedGroups implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm(): TemplateResponse {
-		$this->initialStateService->provideInitialState('talk', 'allowed_groups', $this->config->getAllowedGroupIds());
+		$this->initialStateService->provideInitialState('talk', 'allowed_groups', $this->talkConfig->getAllowedTalkGroupIds());
+		$this->initialStateService->provideInitialState('talk', 'start_conversations', $this->talkConfig->getAllowedConversationsGroupIds());
+		$this->initialStateService->provideInitialState('talk', 'start_calls', (int) $this->serverConfig->getAppValue('spreed', 'start_calls', Room::START_CALL_EVERYONE));
 		return new TemplateResponse('spreed', 'settings/admin/allowed-groups', [], '');
 	}
 
