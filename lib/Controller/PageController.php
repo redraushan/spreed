@@ -279,7 +279,7 @@ class PageController extends Controller {
 			}
 		} catch (RoomNotFoundException $e) {
 			return new RedirectResponse($this->url->linkToRoute('core.login.showLoginForm', [
-				'redirect_url' => $this->url->linkToRoute('spreed.pagecontroller.showCall', ['token' => $token]),
+				'redirect_url' => $this->url->linkToRoute('spreed.Page.showCall', ['token' => $token]),
 			]));
 		}
 
@@ -329,13 +329,13 @@ class PageController extends Controller {
 				if ($room->getType() !== Room::PUBLIC_CALL) {
 					throw new RoomNotFoundException();
 				}
-				return new RedirectResponse($this->url->linkToRoute('spreed.pagecontroller.showCall', ['token' => $token]));
+				return new RedirectResponse($this->url->linkToRoute('spreed.Page.showCall', ['token' => $token]));
 			} catch (RoomNotFoundException $e) {
 				return new RedirectResponse($this->url->linkToRoute('core.login.showLoginForm', [
-					'redirect_url' => $this->url->linkToRoute('spreed.pagecontroller.showCall', ['token' => $token]),
+					'redirect_url' => $this->url->linkToRoute('spreed.Page.showCall', ['token' => $token]),
 				]));
 			}
 		}
-		return new RedirectResponse($this->url->linkToRoute('spreed.pagecontroller.showCall', ['token' => $token]));
+		return new RedirectResponse($this->url->linkToRoute('spreed.Page.showCall', ['token' => $token]));
 	}
 }
